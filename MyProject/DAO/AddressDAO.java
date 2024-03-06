@@ -1,9 +1,13 @@
 package DAO;
 
+import DTO.AddressDTO;
 import config.HibernateConfig;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import model.Address;
+import model.Person;
+
+import java.util.List;
 
 public class AddressDAO {
 
@@ -71,6 +75,38 @@ public class AddressDAO {
         EntityManager em = emf.createEntityManager();
         //Queries the DB for all addresses and prints them out
         em.createQuery("SELECT a FROM Address a", Address.class).getResultList().forEach(System.out::println);
+    }
+
+    public AddressDTO getAddressInfo(int personId){
+
+       List<Object[]> valuesFromAddress = emf.createEntityManager().createQuery("SELECT a.streetName, a.streetNumber FROM Address a JOIN a.person ap WHERE ap.iD = :id").setParameter("id", personId).getResultList();
+
+        return new AddressDTO((String) valuesFromAddress.get(0)[0], (String) valuesFromAddress.get(0)[1]);
+    }
+
+
+    public AddressDTO getAddressInfoAlt (int personId) {
+        EntityManager em = emf.createEntityManager();
+
+      AddressDTO dto = em.createQuery("SELECT NEW DTO.AddressDTO(a.streetName, a.streetNumber) FROM Address a JOIN a.person ap WHERE ap.iD = :myVaryingParameter", AddressDTO.class)
+              .setParameter("myVaryingParameter", personId).getSingleResult();
+
+       return dto;
+    }
+
+    public AddressDTO getAdressInfoPart2 (int personId) {
+
+        EntityManager em = emf.createEntityManager();
+
+        //SELECTS all addresses to begin with and retrieves only the adresses that has a person with the id ":id"
+        // Is there an address that contains a person with the id ":id"
+        // ABOUT THE JOIN: We select all adresses, then join the person table to it and find all addresses that has a relation to a person with the id ":id"
+        Address addressTemp = em.createQuery("SELECT a FROM Address a JOIN a.person ap WHERE ap.iD = :id", Address.class).setParameter("id",personId).getSingleResult();
+        //  Determines that Adress will be returned ^                            ^ Says return the adress where IT'S person has an ID with the number :id
+
+        return AddressDTO.fromAddressObject(addressTemp);
+
+
     }
 
 

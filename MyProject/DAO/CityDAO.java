@@ -1,9 +1,15 @@
 package DAO;
 
+import DTO.CityDTO;
 import config.HibernateConfig;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.TypedQuery;
 import model.City;
+import model.Hobby;
+import model.Person;
+
+import java.util.List;
 
 public class CityDAO {
 
@@ -73,7 +79,17 @@ public class CityDAO {
         em.createQuery("SELECT c FROM City c", City.class).getResultList().forEach(System.out::println);
     }
 
+    public List<Person> getPersonsInCity(String city) {
+        EntityManager entityManager = emf.createEntityManager();
+        TypedQuery<Person> query = entityManager.createQuery("SELECT p FROM Person p WHERE p.city.cityName = :city", Person.class).setParameter("city", city);
+        return query.getResultList();
+    }
 
+    public List<CityDTO> getAllPostcodesAndCities() {
+        EntityManager entityManager = emf.createEntityManager();
+        List<City> cities = entityManager.createQuery("SELECT c FROM City c", City.class).getResultList();
+        return CityDTO.fromCityObject(cities);
+    }
 
 
 

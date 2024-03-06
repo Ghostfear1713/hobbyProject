@@ -61,7 +61,37 @@ public class Main {
         );
         //Above are all detached objects (not in the database)
 
-        System.out.println(personDAO.getPersonDetails(1));
+        //USER STORY 1 - As a user I want to get all the information about a person
+        //System.out.println(personDAO.getPersonDetails(1));
+
+        //USER STORY 2 - As a user I want to get all phone numbers from a given person
+        //System.out.println(personDAO.getPhoneNumberOfPerson(3));
+
+        //USER STORY 3 - As a user I want to get all persons with a given hobby
+        //System.out.println(hobbyDAO.getPersonsWithHobby("RUNNING"));
+
+        //USER STORY 4 - As a user I want to get the number of people with a given hobby
+        //System.out.println(hobbyDAO.getNumberOfPeopleWithHobby(HobbyType.GAMING));
+
+        //USER STORY 5 - As a user I want to get a list all hobbies + a count of how many are interested in each hobby
+
+
+        //USER STORY 6 - As a user I want to get all persons living in a given city (i.e. 2800 Lyngby)
+        //System.out.println(cityDAO.getPersonsInCity("Vejle"));
+
+        //USER STORY 7 - As a user I want to get a list of all postcodes and city names in Denmark
+        //System.out.println(cityDAO.getAllPostcodesAndCities());
+
+        //USER STORY 8 - As a user I want to get all the information about a person (address, hobbies etc.) given a phone number
+        //System.out.println(personDAO.getPersonByPhoneNumber(12345678));
+
+
+
+
+
+
+
+
 
         /*for (int i = 0; i < persons.size(); i++) {
             Person person = persons.get(i);

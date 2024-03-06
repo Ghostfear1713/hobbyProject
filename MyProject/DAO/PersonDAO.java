@@ -4,7 +4,10 @@ import DTO.PersonDTO;
 import config.HibernateConfig;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.TypedQuery;
 import model.*;
+
+import java.util.List;
 
 public class PersonDAO {
 
@@ -64,9 +67,27 @@ public class PersonDAO {
         return PersonDTO.fromPerson(person);
     }
 
+    public int getPhoneNumberOfPerson(int id) {
+        EntityManager entityManager = emf.createEntityManager();
+        //Its important to cast the result to an int since getSingleResult returns an Object
+        int phoneNumber = (int) entityManager.createQuery("SELECT p.phoneNumber from Person p WHERE p.iD = :id").setParameter("id", id).getSingleResult();
+        entityManager.close();
+        return phoneNumber;
+    }
 
+    public Person getPersonByPhoneNumber(int phoneNumber) {
+        EntityManager em = emf.createEntityManager();
+        TypedQuery<Person> query = em.createQuery(
+                "SELECT p FROM Person p WHERE p.phoneNumber = :phoneNumber", Person.class);
+        query.setParameter("phoneNumber", phoneNumber);
 
+        List<Person> resultList = query.getResultList();
+        if (resultList.isEmpty()) {
+            return null; // No person found with the given phone number
+        }
 
+        return resultList.get(0); // Assuming phone numbers are unique
+    }
 
 
 
