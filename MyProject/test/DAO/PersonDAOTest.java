@@ -1,4 +1,4 @@
-/*
+
 package DAO;
 
 
@@ -124,14 +124,9 @@ class PersonDAOTest {
 
         assertEquals(personDTO.id(),person1.getID());
 
-
-
-
-
-
     }
 
     @Test
     void getPhoneNumberOfPerson() {
     }
-}*/
+}
